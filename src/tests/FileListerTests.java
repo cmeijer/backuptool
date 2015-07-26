@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,25 +19,41 @@ public class FileListerTests {
 	private Path testDirectory = currentWorkingDirectory.resolve("resources/test");
 	private Path emptyDirectory = testDirectory.resolve("emptyFolder");
 	private Path directoryWithOneFile = testDirectory.resolve("folderWithOneFile");
+	private Path directoryWithSubs = testDirectory.resolve("folderWithSubs");
+	private Path directoryWithSub = testDirectory.resolve("folderWithSub");
+	private Path directoryWithCheckSum = testDirectory.resolve("checksumfolder");
 	private FileLister fileLister;
 
 	@Test
 	public void getFiles_emptyDirectory_emptyList() {
-		List<FileAttributes> files = fileLister.getFiles(emptyDirectory);
-		assertEquals(0, files.size());
+		Stream<FileAttributes> files = fileLister.getFiles(emptyDirectory);
+		assertEquals(0, files.count());
 	}
 
 	@Test
 	public void getFiles_directoryWithOneFile_listSizeOne() {
-		List<FileAttributes> files = fileLister.getFiles(directoryWithOneFile);
-		assertEquals(1, files.size());
+		Stream<FileAttributes> files = fileLister.getFiles(directoryWithOneFile);
+		assertEquals(1, files.count());
 	}
 
 	@Test
-	public void getFiles_directoryWithOneFile_correctFileName() {
-		List<FileAttributes> files = fileLister.getFiles(directoryWithOneFile);
-		FileAttributes file = files.get(0);
+	public void getFiles_directoryWithOneFile_correctPath() {
+		Stream<FileAttributes> files = fileLister.getFiles(directoryWithOneFile);
+		FileAttributes file = files.findFirst().get();
 		assertEquals("file", file.getRelativePath());
+	}
+
+	@Test
+	public void getFiles_directoryWithSubsAnd4Files_4files() {
+		Stream<FileAttributes> files = fileLister.getFiles(directoryWithSubs);
+		assertEquals(4, files.count());
+	}
+
+	@Test
+	public void getFiles_fileInSub_correctPath() {
+		Stream<FileAttributes> files = fileLister.getFiles(directoryWithSub);
+		FileAttributes file = files.findFirst().get();
+		assertEquals("sub/file", file.getRelativePath());
 	}
 
 	@Before
