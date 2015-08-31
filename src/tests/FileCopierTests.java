@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import backuptool.FileAttributes;
-import backuptool.FileCopier;
+import backuptool.IoFileCopier;
 
 public class FileCopierTests extends BackUpToolTests {
 
@@ -21,7 +21,7 @@ public class FileCopierTests extends BackUpToolTests {
 	private String fileName = "file.jpg";
 	private Path expectedTargetFilePath = targetDirectory.resolve(fileName);
 	private Path sourceFilePath = sourceDirectory.resolve(fileName);
-	private FileCopier fileCopier;
+	private IoFileCopier fileCopier;
 
 	@Test
 	public void copy_file_fileCreated() {
@@ -63,7 +63,7 @@ public class FileCopierTests extends BackUpToolTests {
 	@Before
 	public void setUp() throws IOException {
 		Files.createDirectory(targetDirectory);
-		fileCopier = new FileCopier();
+		fileCopier = new IoFileCopier();
 	}
 
 	@After
