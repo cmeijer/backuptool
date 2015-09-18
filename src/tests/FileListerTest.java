@@ -11,7 +11,7 @@ import org.junit.Test;
 import backuptool.FileAttributes;
 import backuptool.FileLister;
 
-public class FileListerTests extends BackUpToolTests {
+public class FileListerTest extends BackUpToolTest {
 	private Path emptyDirectory = testDirectory.resolve("emptyFolder");
 	private Path directoryWithOneFile = testDirectory.resolve("folderWithOneFile");
 	private Path directoryWithSubs = testDirectory.resolve("folderWithSubs");

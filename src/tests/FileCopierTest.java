@@ -14,7 +14,7 @@ import org.junit.Test;
 import backuptool.FileAttributes;
 import backuptool.IoFileCopier;
 
-public class FileCopierTests extends BackUpToolTests {
+public class FileCopierTest extends BackUpToolTest {
 
 	private Path sourceDirectory = testDirectory.resolve("copyFolder/source");
 	private Path targetDirectory = testDirectory.resolve("copyFolder/target");

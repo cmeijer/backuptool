@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import backuptool.MainClass;
 
-public class MainClassTests {
+public class MainClassTest {
 	@Test
 	public void sometest() {
 		Path path = Paths.get("/home/chris/development/testje");

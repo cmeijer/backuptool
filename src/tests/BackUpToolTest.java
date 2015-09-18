@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class BackUpToolTests {
+public class BackUpToolTest {
 
 	private Path currentWorkingDirectory = getCurrentWorkingDirectory();
 	protected Path testDirectory = currentWorkingDirectory.resolve("resources/test");
 
-	public BackUpToolTests() {
+	public BackUpToolTest() {
 		super();
 	}
 

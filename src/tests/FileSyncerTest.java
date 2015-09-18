@@ -15,7 +15,7 @@ import backuptool.FileAttributes;
 import backuptool.FileCopier;
 import backuptool.FileSyncer;
 
-public class FileSyncerTests extends BackUpToolTests {
+public class FileSyncerTest extends BackUpToolTest {
 
 	private Path sourceDirectory = testDirectory.resolve("syncFolder/source");
 	private Path targetDirectory = testDirectory.resolve("syncFolder/target");
