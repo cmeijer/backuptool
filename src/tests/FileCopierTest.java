@@ -16,10 +16,15 @@ import backuptool.IoFileCopier;
 
 public class FileCopierTest extends BackUpToolTest {
 
-	private Path sourceDirectory = testDirectory.resolve("copyFolder/source");
+	private Path sourceDirectory = testDirectory.resolve("copyFolder/sourceSimple");
+	private Path sourceWithSubDirectory = testDirectory.resolve("copyFolder/sourceSub");
 	private Path targetDirectory = testDirectory.resolve("copyFolder/target");
 	private String fileName = "file.jpg";
+	private String subDirName = "sub";
+	private Path targetSubDirectory = targetDirectory.resolve(subDirName);
+	private String fileNameInSub = subDirName + "/file.jpg";
 	private Path expectedTargetFilePath = targetDirectory.resolve(fileName);
+	private Path expectedTargetFileInSubPath = targetDirectory.resolve(fileNameInSub);
 	private Path sourceFilePath = sourceDirectory.resolve(fileName);
 	private IoFileCopier fileCopier;
 
@@ -60,6 +65,17 @@ public class FileCopierTest extends BackUpToolTest {
 		}
 	}
 
+	@Test
+	public void copy_fileInSub_fileCreated() {
+		FileAttributes fileInSub = new FileAttributes(fileNameInSub);
+
+		// Act
+		fileCopier.copy(fileInSub, sourceWithSubDirectory, targetDirectory);
+
+		// Assert
+		assertTrue(Files.exists(expectedTargetFileInSubPath));
+	}
+
 	@Before
 	public void setUp() throws IOException {
 		Files.createDirectory(targetDirectory);
@@ -68,8 +84,10 @@ public class FileCopierTest extends BackUpToolTest {
 
 	@After
 	public void cleanUp() throws IOException {
-		Files.delete(expectedTargetFilePath);
-		Files.delete(targetDirectory);
+		Files.deleteIfExists(expectedTargetFilePath);
+		Files.deleteIfExists(expectedTargetFileInSubPath);
+		Files.deleteIfExists(targetSubDirectory);
+		Files.deleteIfExists(targetDirectory);
 	}
 
 }

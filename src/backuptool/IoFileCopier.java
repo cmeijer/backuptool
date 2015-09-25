@@ -11,6 +11,8 @@ public class IoFileCopier implements FileCopier {
 		try {
 			Path sourcePath = sourceDirectory.resolve(file.getRelativePath());
 			Path targetPath = targetDirectory.resolve(file.getRelativePath());
+			Path parent = targetPath.getParent();
+			Files.createDirectories(parent);
 			Files.copy(sourcePath, targetPath);
 		} catch (IOException e) {
 			throw new BackupToolException(e);
