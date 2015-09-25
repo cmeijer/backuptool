@@ -1,23 +1,13 @@
 package backuptool;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 public class MainClass {
 
 	public static void main(String[] args) {
-		Path path = Paths.get("/home/chris/development/runrunrun");
-		new MainClass().writeFile(path);
+		GuiceModule guiceModule = new GuiceModule("/home/chris/development/backuptool");
+		Injector injector = Guice.createInjector(guiceModule);
+		MainClass app = injector.getInstance(MainClass.class);
 	}
-
-	public void writeFile(Path path) {
-		try {
-			Files.createFile(path);
-		} catch (IOException e) {
-			throw new BackupToolException(e);
-		}
-	}
-
 }
