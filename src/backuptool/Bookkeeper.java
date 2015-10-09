@@ -2,6 +2,7 @@ package backuptool;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 public class Bookkeeper<T> {
 	private List<FileAttributes> unFinishedJobs = new LinkedList<FileAttributes>();
@@ -17,8 +19,8 @@ public class Bookkeeper<T> {
 	private ObjectMapper objectMapper;
 
 	@Inject
-	public Bookkeeper(Path path, ObjectMapper objectMapper) {
-		this.persistencePath = path;
+	public Bookkeeper(@Named("persistencePath") String persistencePath, ObjectMapper objectMapper) {
+		this.persistencePath = Paths.get(persistencePath);
 		this.objectMapper = objectMapper;
 		addPersistedJobs();
 	}

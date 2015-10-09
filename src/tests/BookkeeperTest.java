@@ -77,7 +77,7 @@ public class BookkeeperTest extends BackUpToolTest {
 	}
 
 	private Bookkeeper<FileAttributes> getNewBookkeeper() {
-		return new Bookkeeper<FileAttributes>(persistencePath, new ObjectMapper());
+		return new Bookkeeper<FileAttributes>(persistencePath.toAbsolutePath().toString(), new ObjectMapper());
 	}
 
 }
