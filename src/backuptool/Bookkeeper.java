@@ -59,7 +59,6 @@ public class Bookkeeper<T> {
 					});
 			persistedJobs.addAll(readValue);
 		} catch (IOException e) {
-			e.printStackTrace();
 			// no file, no persisted jobs to add
 		}
 		unFinishedJobs.addAll(persistedJobs);
