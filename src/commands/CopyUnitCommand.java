@@ -11,7 +11,7 @@ import backuptool.FileAttributes;
 import backuptool.FileCopier;
 import backuptool.NoJobsException;
 
-public class CopyUnitCommand {
+public class CopyUnitCommand implements Command {
 	final private FileCopier fileCopier;
 	final private Bookkeeper<FileAttributes> bookkeeper;
 	private Path sourceRoot;
@@ -26,13 +26,18 @@ public class CopyUnitCommand {
 		this.bookkeeper = bookkeeper;
 	}
 
+	@Override
 	public void execute() {
+		System.out.println("Backup tool: Copying 1 unit.");
 		try {
 			FileAttributes file = bookkeeper.getUnfinishedJob();
 			fileCopier.copy(file, sourceRoot, targetRoot);
 			bookkeeper.markJobAsFinished(file);
 		} catch (NoJobsException e) {
 			// Nothing to be done.
+			System.out.println("Backup tool: No files to copy.");
 		}
+		System.out.println("Backup tool: Finished copying.");
+
 	}
 }

@@ -21,10 +21,18 @@ public class MainClass {
 		GuiceModule guiceModule = new GuiceModule("/home/chris/development/backuptool");
 		Injector injector = Guice.createInjector(guiceModule);
 		MainClass app = injector.getInstance(MainClass.class);
-		app.run();
+		app.run(args);
 	}
 
-	private void run() {
-		updateListCommand.execute();
+	public void run(String[] args) {
+		if (args.length == 0) {
+			return;
+		}
+		if ("list".equals(args[0])) {
+			updateListCommand.execute();
+		}
+		if ("copy".equals(args[0])) {
+			copyUnitCommand.execute();
+		}
 	}
 }

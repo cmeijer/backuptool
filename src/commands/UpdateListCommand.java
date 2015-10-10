@@ -12,7 +12,7 @@ import backuptool.Bookkeeper;
 import backuptool.FileAttributes;
 import backuptool.FileLister;
 
-public class UpdateListCommand {
+public class UpdateListCommand implements Command {
 	final private FileLister fileLister;
 	final private Bookkeeper<FileAttributes> bookkeeper;
 	private Path root;
@@ -25,8 +25,16 @@ public class UpdateListCommand {
 		this.bookkeeper = bookkeeper;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see commands.Command#execute()
+	 */
+	@Override
 	public void execute() {
+		System.out.println("Backup tool: Updating file list.");
 		Stream<FileAttributes> files = fileLister.getFiles(root);
 		bookkeeper.AddJobs(files.collect(Collectors.toList()));
+		System.out.println("Backup tool: Finished updating file list.");
 	}
 }
