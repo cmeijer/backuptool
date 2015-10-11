@@ -45,14 +45,11 @@ public class BookkeeperTest extends BackUpToolTest {
 
 	@Test(expected = NoJobsException.class)
 	public void getUnfinishedJob_jobAddedAndMarkedAsFinished_throw() {
-		String relativePath = "3dc13ac6";
-		FileAttributes job = new FileAttributes(relativePath);
+		FileAttributes job = getNewTestJob();
 		bookkeeper.AddJobs(Arrays.asList(new FileAttributes[] { job }));
 		bookkeeper.markJobAsFinished(job);
 
-		FileAttributes unfinishedJob = bookkeeper.getUnfinishedJob();
-
-		assertEquals(relativePath, unfinishedJob.getRelativePath());
+		bookkeeper.getUnfinishedJob();
 	}
 
 	@Test
@@ -64,6 +61,41 @@ public class BookkeeperTest extends BackUpToolTest {
 		FileAttributes unfinishedJob = getNewBookkeeper().getUnfinishedJob();
 
 		assertEquals(relativePath, unfinishedJob.getRelativePath());
+	}
+
+	@Test(expected = NoJobsException.class)
+	public void getUnfinishedJob_jobAddedAndMarkedAsFinishedAndAddAgain_throw() {
+		FileAttributes job = getNewTestJob();
+		bookkeeper.AddJobs(Arrays.asList(new FileAttributes[] { job }));
+		bookkeeper.markJobAsFinished(job);
+		bookkeeper.AddJobs(Arrays.asList(new FileAttributes[] { job }));
+
+		bookkeeper.getUnfinishedJob();
+	}
+
+	@Test(expected = NoJobsException.class)
+	public void getUnfinishedJob_jobAddedAndMarkedAsFinishedAndAddEquivalent_throw() {
+		bookkeeper.AddJobs(Arrays.asList(new FileAttributes[] { getNewTestJob() }));
+		bookkeeper.markJobAsFinished(getNewTestJob());
+		bookkeeper.AddJobs(Arrays.asList(new FileAttributes[] { getNewTestJob() }));
+
+		bookkeeper.getUnfinishedJob();
+	}
+
+	@Test(expected = NoJobsException.class)
+	public void getUnfinishedJob_jobAddedAndMarkedAsFinishedNewBookkeeperAddEquivalent_throw() {
+		bookkeeper.AddJobs(Arrays.asList(new FileAttributes[] { getNewTestJob() }));
+		bookkeeper.markJobAsFinished(getNewTestJob());
+		Bookkeeper<FileAttributes> newBookkeeper = getNewBookkeeper();
+		newBookkeeper.AddJobs(Arrays.asList(new FileAttributes[] { getNewTestJob() }));
+
+		newBookkeeper.getUnfinishedJob();
+	}
+
+	public FileAttributes getNewTestJob() {
+		String relativePath = "3dc13ac6";
+		FileAttributes job = new FileAttributes(relativePath);
+		return job;
 	}
 
 	@Before
